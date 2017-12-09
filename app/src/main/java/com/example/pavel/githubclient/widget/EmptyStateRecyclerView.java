@@ -48,15 +48,13 @@ public class EmptyStateRecyclerView extends RecyclerView {
 		if (adapter != null) {
 			adapter.registerAdapterDataObserver(emptyStateObserver);
 		}
-		checkIfEmpty();
 	}
 
 	public void setEmptyView(View emptyView) {
 		this.emptyView = emptyView;
-		checkIfEmpty();
 	}
 
-	private void checkIfEmpty() {
+	public void checkIfEmpty() {
 		if (emptyView != null && getAdapter() != null) {
 			if (getAdapter().getItemCount() == 0) {
 				setVisibility(View.GONE);
