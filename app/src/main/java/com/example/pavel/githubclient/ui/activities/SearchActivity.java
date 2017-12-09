@@ -47,7 +47,7 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView {
 
 	@Override
 	public void showUserList() {
-		UsersListActivity.showIntance(this, searchEditText.getText().toString().trim());
+		UsersListActivity.showInstance(this, searchEditText.getText().toString().trim());
 	}
 
 	@Override

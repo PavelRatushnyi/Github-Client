@@ -106,4 +106,8 @@ public class UsersListPresenter extends BasePresenter<UsersListView> {
 	private int getUsersCount() {
 		return users.size();
 	}
+
+	public void showUserDetails(User user) {
+		getViewState().showUserDetails(user);
+	}
 }

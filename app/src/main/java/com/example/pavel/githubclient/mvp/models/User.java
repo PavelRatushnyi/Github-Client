@@ -1,8 +1,22 @@
 package com.example.pavel.githubclient.mvp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Parcelable {
+	public static final Creator<User> CREATOR = new Creator<User>() {
+		@Override
+		public User createFromParcel(Parcel in) {
+			return new User(in);
+		}
+
+		@Override
+		public User[] newArray(int size) {
+			return new User[size];
+		}
+	};
 	@SerializedName("login")
 	private String login;
 	@SerializedName("id")
@@ -39,6 +53,30 @@ public class User {
 	private boolean siteAdmin;
 	@SerializedName("score")
 	private double score;
+
+	public User() {
+	}
+
+	protected User(Parcel in) {
+		login = in.readString();
+		id = in.readInt();
+		avatarUrl = in.readString();
+		gravatarId = in.readString();
+		url = in.readString();
+		htmlUrl = in.readString();
+		followersUrl = in.readString();
+		followingUrl = in.readString();
+		gistsUrl = in.readString();
+		starredUrl = in.readString();
+		subscriptionsUrl = in.readString();
+		organizationsUrl = in.readString();
+		reposUrl = in.readString();
+		eventsUrl = in.readString();
+		receivedEventsUrl = in.readString();
+		type = in.readString();
+		siteAdmin = in.readByte() != 0;
+		score = in.readDouble();
+	}
 
 	public String getLogin() {
 		return login;
@@ -182,5 +220,32 @@ public class User {
 
 	public void setScore(double score) {
 		this.score = score;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int i) {
+		parcel.writeString(login);
+		parcel.writeInt(id);
+		parcel.writeString(avatarUrl);
+		parcel.writeString(gravatarId);
+		parcel.writeString(url);
+		parcel.writeString(htmlUrl);
+		parcel.writeString(followersUrl);
+		parcel.writeString(followingUrl);
+		parcel.writeString(gistsUrl);
+		parcel.writeString(starredUrl);
+		parcel.writeString(subscriptionsUrl);
+		parcel.writeString(organizationsUrl);
+		parcel.writeString(reposUrl);
+		parcel.writeString(eventsUrl);
+		parcel.writeString(receivedEventsUrl);
+		parcel.writeString(type);
+		parcel.writeByte((byte) (siteAdmin ? 1 : 0));
+		parcel.writeDouble(score);
 	}
 }

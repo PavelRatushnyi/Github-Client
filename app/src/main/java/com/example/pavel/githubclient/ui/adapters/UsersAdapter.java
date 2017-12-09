@@ -24,6 +24,8 @@ public class UsersAdapter extends MvpRecyclerViewAdapter<RecyclerView.ViewHolder
 	private List<User> users;
 	private boolean loading;
 
+	private OnUserClickListener listener;
+
 	public UsersAdapter(MvpDelegate<?> parentDelegate) {
 		super(parentDelegate, String.valueOf(0));
 	}
@@ -36,10 +38,22 @@ public class UsersAdapter extends MvpRecyclerViewAdapter<RecyclerView.ViewHolder
 		this.loading = loading;
 	}
 
+	public void setOnUserClickListener(OnUserClickListener listener) {
+		this.listener = listener;
+	}
+
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		if (viewType == USER_VIEW_TYPE) {
 			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_list_item, parent, false);
+			view.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					if (listener != null) {
+						listener.onUserClick(view);
+					}
+				}
+			});
 			return new UserHolder(view);
 		} else {
 			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_list_item, parent, false);
@@ -60,7 +74,7 @@ public class UsersAdapter extends MvpRecyclerViewAdapter<RecyclerView.ViewHolder
 		return position == getItemCount() - 1 && isLoading() ? LOADING_VIEW_TYPE : USER_VIEW_TYPE;
 	}
 
-	private User getItem(int position) {
+	public User getItem(int position) {
 		return users.get(position);
 	}
 
@@ -88,6 +102,10 @@ public class UsersAdapter extends MvpRecyclerViewAdapter<RecyclerView.ViewHolder
 	public void removeLoadingFooter() {
 		users.remove(getItemCount() - 1);
 		notifyItemRemoved(getItemCount());
+	}
+
+	public interface OnUserClickListener {
+		void onUserClick(View view);
 	}
 
 	public class LoadingHolder extends RecyclerView.ViewHolder {

@@ -32,7 +32,7 @@ public class UsersListActivity extends MvpAppCompatActivity implements UsersList
 	private UsersAdapter usersAdapter;
 	private View errorView;
 
-	public static void showIntance(Context context, String searchUserName) {
+	public static void showInstance(Context context, String searchUserName) {
 		Intent intent = new Intent(context, UsersListActivity.class);
 		intent.putExtra(SEARCH_USER_NAME, searchUserName);
 		context.startActivity(intent);
@@ -57,6 +57,15 @@ public class UsersListActivity extends MvpAppCompatActivity implements UsersList
 		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 		usersRecyclerView.setLayoutManager(linearLayoutManager);
 		usersAdapter = new UsersAdapter(getMvpDelegate());
+		usersAdapter.setOnUserClickListener(new UsersAdapter.OnUserClickListener() {
+			@Override
+			public void onUserClick(View view) {
+				int position = usersRecyclerView.getChildAdapterPosition(view);
+				if (position != RecyclerView.NO_POSITION) {
+					usersListPresenter.showUserDetails(usersAdapter.getItem(position));
+				}
+			}
+		});
 		usersRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
 			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -103,5 +112,10 @@ public class UsersListActivity extends MvpAppCompatActivity implements UsersList
 	public void showErrorMessage() {
 		usersRecyclerView.setVisibility(View.GONE);
 		errorView.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void showUserDetails(User user) {
+		UserDetailsActivity.showInstance(this, user);
 	}
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.pavel.githubclient.di.modules.ContextModule;
 import com.example.pavel.githubclient.di.modules.GithubModule;
+import com.example.pavel.githubclient.mvp.presenters.UserDetailsPresenter;
 import com.example.pavel.githubclient.mvp.presenters.UsersListPresenter;
 
 import javax.inject.Singleton;
@@ -17,4 +18,5 @@ public interface AppComponent {
 	Context getContext();
 
 	void inject(UsersListPresenter usersListPresenter);
+	void inject(UserDetailsPresenter userDetailsPresenter);
 }

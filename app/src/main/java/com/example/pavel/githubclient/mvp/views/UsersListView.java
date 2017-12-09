@@ -25,4 +25,7 @@ public interface UsersListView extends MvpView {
 	void removeLoadingFooter();
 
 	void showErrorMessage();
+
+	@StateStrategyType(OneExecutionStateStrategy.class)
+	void showUserDetails(User user);
 }

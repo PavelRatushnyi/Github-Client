@@ -4,5 +4,8 @@
     <string name="shared_string_search">Search</string>
     <string name="empty_input_toast">Please, enter valid user name</string>
     <string name="error_loading_message">Oops…</string>
-    <string name="empty_message">No users found</string>
+    <string name="empty_message">Nothing to display</string>
+    <string name="details_login">User login:</string>
+    <string name="details_score">User score:</string>
+    <string name="shared_string_repositories">Repositories:</string>
 </resources>
