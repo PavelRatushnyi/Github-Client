@@ -1,22 +1,30 @@
 package com.example.pavel.githubclient.ui.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpDelegate;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.example.pavel.githubclient.R;
+import com.example.pavel.githubclient.app.GithubApp;
 import com.example.pavel.githubclient.mvp.models.User;
 import com.example.pavel.githubclient.mvp.presenters.UserPresenter;
 import com.example.pavel.githubclient.mvp.views.UserView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class UsersAdapter extends MvpRecyclerViewAdapter<RecyclerView.ViewHolder> {
+
+	Context context = GithubApp.getAppComponent().getContext();
 
 	private static final int USER_VIEW_TYPE = 34;
 	private static final int LOADING_VIEW_TYPE = 35;
@@ -124,12 +132,12 @@ public class UsersAdapter extends MvpRecyclerViewAdapter<RecyclerView.ViewHolder
 		private MvpDelegate mvpDelegate;
 
 		private TextView login;
-		private TextView avatarUrl;
+		private ImageView avatar;
 
 		private UserHolder(View itemView) {
 			super(itemView);
-			login = itemView.findViewById(R.id.login);
-			avatarUrl = itemView.findViewById(R.id.avatar_url);
+			login = (TextView) itemView.findViewById(R.id.login);
+			avatar = (ImageView) itemView.findViewById(R.id.avatar_image);
 		}
 
 		@ProvidePresenter
@@ -154,7 +162,7 @@ public class UsersAdapter extends MvpRecyclerViewAdapter<RecyclerView.ViewHolder
 		@Override
 		public void showUserInfo(User user) {
 			login.setText(user.getLogin());
-			avatarUrl.setText(user.getAvatarUrl());
+			Picasso.with(context).load(user.getAvatarUrl()).into(avatar);
 		}
 
 		private MvpDelegate getMvpDelegate() {
