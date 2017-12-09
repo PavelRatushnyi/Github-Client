@@ -74,18 +74,13 @@ public class UsersListActivity extends MvpAppCompatActivity implements UsersList
 				int totalItemCount = linearLayoutManager.getItemCount();
 				int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
 				if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
-					usersListPresenter.onScrolledToBottom();
+					usersListPresenter.loadMore(usersAdapter.getItemCount());
 				}
 			}
 		});
 		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(usersRecyclerView.getContext(), linearLayoutManager.getOrientation());
 		usersRecyclerView.addItemDecoration(dividerItemDecoration);
 		usersRecyclerView.setAdapter(usersAdapter);
-	}
-
-	@Override
-	public void setUsersList(List<User> users) {
-		usersAdapter.setUsers(users);
 	}
 
 	@Override

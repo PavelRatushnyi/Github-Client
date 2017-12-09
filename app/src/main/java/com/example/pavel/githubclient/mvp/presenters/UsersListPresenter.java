@@ -1,6 +1,7 @@
 package com.example.pavel.githubclient.mvp.presenters;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.example.pavel.githubclient.app.GithubApi;
 import com.example.pavel.githubclient.app.GithubApp;
 import com.example.pavel.githubclient.mvp.GithubService;
 import com.example.pavel.githubclient.mvp.models.User;
@@ -26,8 +27,6 @@ public class UsersListPresenter extends BasePresenter<UsersListView> {
 	GithubService githubService;
 
 	private String searchQuery;
-	private int page = 1;
-	private List<User> users = new ArrayList<>();
 	private boolean loading = false;
 	private boolean lastPage = false;
 
@@ -62,24 +61,19 @@ public class UsersListPresenter extends BasePresenter<UsersListView> {
 	@Override
 	protected void onFirstViewAttach() {
 		super.onFirstViewAttach();
-		getViewState().setUsersList(users);
-		loadUsers();
+		loadUsers(0);
 	}
 
-	public void onScrolledToBottom() {
+	public void loadMore(int usersCount) {
 		if (!isLoading() && !isLastPage()) {
-			loadMoreUsers();
+			loadUsers(usersCount);
 		}
 	}
 
-	private void loadMoreUsers() {
-		page++;
-		loadUsers();
-	}
-
-	private void loadUsers() {
+	private void loadUsers(final int usersCount) {
 		setLoading(true);
 
+		int page = usersCount / GithubApi.PER_PAGE + 1;
 		Disposable disposable = githubService.getUsers(searchQuery, page, PER_PAGE)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
@@ -87,8 +81,9 @@ public class UsersListPresenter extends BasePresenter<UsersListView> {
 					@Override
 					public void accept(UsersResponse response) throws Exception {
 						setLoading(false);
-						getViewState().addUsers(response.getUsers());
-						if (getUsersCount() == response.getTotalCount()) {
+						List<User> users = response.getUsers();
+						getViewState().addUsers(users);
+						if (usersCount + users.size() == response.getTotalCount()) {
 							setLastPage(true);
 						}
 					}
@@ -101,10 +96,6 @@ public class UsersListPresenter extends BasePresenter<UsersListView> {
 				});
 
 		disposeOnDestroy(disposable);
-	}
-
-	private int getUsersCount() {
-		return users.size();
 	}
 
 	public void showUserDetails(User user) {

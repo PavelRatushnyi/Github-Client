@@ -40,7 +40,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
 		loadRepositories();
 	}
 
-	private void loadRepositories() {
+	public void loadRepositories() {
 		getViewState().showLoadingProgress();
 
 		Disposable disposable = githubService.getUserRepos(user.getLogin())

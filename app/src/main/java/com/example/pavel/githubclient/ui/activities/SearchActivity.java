@@ -32,17 +32,9 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView {
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				attemptSearch();
+				searchPresenter.search(searchEditText.getText().toString().trim());
 			}
 		});
-	}
-
-	public void attemptSearch() {
-		if (TextUtils.isEmpty(searchEditText.getText().toString().trim())) {
-			searchPresenter.onSearchFailed();
-		} else {
-			searchPresenter.onSearchSuccessful();
-		}
 	}
 
 	@Override

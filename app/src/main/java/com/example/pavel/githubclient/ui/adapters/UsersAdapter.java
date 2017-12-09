@@ -18,9 +18,8 @@ import com.example.pavel.githubclient.mvp.presenters.UserPresenter;
 import com.example.pavel.githubclient.mvp.views.UserView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class UsersAdapter extends MvpRecyclerViewAdapter<RecyclerView.ViewHolder> {
 
@@ -29,7 +28,7 @@ public class UsersAdapter extends MvpRecyclerViewAdapter<RecyclerView.ViewHolder
 	private static final int USER_VIEW_TYPE = 34;
 	private static final int LOADING_VIEW_TYPE = 35;
 
-	private List<User> users;
+	private List<User> users = new ArrayList<>();
 	private boolean loading;
 
 	private OnUserClickListener listener;
